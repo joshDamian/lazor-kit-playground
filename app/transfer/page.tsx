@@ -1,12 +1,7 @@
 "use client";
 
 import { useWallet } from "@lazorkit/wallet";
-import {
-  PublicKey,
-  LAMPORTS_PER_SOL,
-  SystemProgram,
-  Transaction,
-} from "@solana/web3.js";
+import { PublicKey, LAMPORTS_PER_SOL, SystemProgram } from "@solana/web3.js";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import CodeSnippet from "@/app/components/CodeSnippet";
@@ -20,6 +15,7 @@ export default function TransferPage() {
     isConnecting,
     isLoading,
     signAndSendTransaction,
+    isSigning,
   } = useWallet();
 
   const [isMounted, setIsMounted] = useState(false);
@@ -48,6 +44,21 @@ export default function TransferPage() {
   >("idle");
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [successMsg, setSuccessMsg] = useState<string | null>(null);
+  const [signature, setSignature] = useState<string | null>(null);
+  const [copied, setCopied] = useState(false);
+
+  const truncateHash = (hash: string) => {
+    if (hash.length <= 32) return hash;
+    return `${hash.slice(0, 16)}...${hash.slice(-16)}`;
+  };
+
+  const handleCopy = async () => {
+    if (signature) {
+      await navigator.clipboard.writeText(signature);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    }
+  };
 
   const handleSend = async () => {
     setStatus("sending");
@@ -60,16 +71,17 @@ export default function TransferPage() {
     }
 
     try {
-      const tx = new Transaction().add(
-        SystemProgram.transfer({
-          fromPubkey: smartWalletPubkey!,
-          toPubkey: new PublicKey(recipient),
-          lamports: Number(amount) * LAMPORTS_PER_SOL,
-        }),
-      );
+      const instruction = SystemProgram.transfer({
+        fromPubkey: smartWalletPubkey!,
+        toPubkey: new PublicKey(recipient),
+        lamports: Number(amount) * LAMPORTS_PER_SOL,
+      });
 
-      const signature = await signAndSendTransaction(tx);
-      setSuccessMsg(`Transaction sent! Signature: ${signature}`);
+      const sig = await signAndSendTransaction({
+        instructions: [instruction],
+      });
+      setSignature(sig);
+      setSuccessMsg("Transaction sent successfully!");
       setStatus("success");
 
       setRecipient("");
@@ -82,7 +94,7 @@ export default function TransferPage() {
   };
 
   // Show loading state while checking connection
-  if (isLoading) {
+  if (isLoading && !isSigning) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-50">
         <main className="w-full max-w-2xl mx-auto px-6 py-16">
@@ -125,6 +137,7 @@ export default function TransferPage() {
               type="number"
               placeholder="Amount (SOL)"
               value={amount}
+              step={0.00000001}
               onChange={(e) => setAmount(e.target.value)}
               className="w-full p-3 border rounded-lg"
             />
@@ -142,7 +155,24 @@ export default function TransferPage() {
             </button>
           </div>
 
-          {successMsg && <p className="text-green-600">{successMsg}</p>}
+          {successMsg && (
+            <div className="space-y-2">
+              <p className="text-green-600">{successMsg}</p>
+              {signature && (
+                <div className="flex items-center gap-2 p-3 bg-gray-50 rounded-lg border border-gray-200">
+                  <span className="text-sm text-gray-700 font-mono">
+                    {truncateHash(signature)}
+                  </span>
+                  <button
+                    onClick={handleCopy}
+                    className="ml-auto px-3 py-1 text-sm bg-blue-100 hover:bg-blue-200 text-blue-700 rounded transition-colors"
+                  >
+                    {copied ? "Copied!" : "Copy"}
+                  </button>
+                </div>
+              )}
+            </div>
+          )}
           {errorMsg && <p className="text-red-500">{errorMsg}</p>}
 
           <CodeSnippet
