@@ -62,10 +62,10 @@ export default function WalletDetailsPage() {
   // Show loading state while checking connection
   if (walletLoading) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-50">
+      <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-gray-900 dark:to-gray-800">
         <main className="w-full max-w-2xl mx-auto px-6 py-16">
-          <div className="bg-white rounded-2xl shadow-xl p-12 border border-gray-100 space-y-6">
-            <h1 className="text-3xl font-bold text-gray-900">Wallet Details</h1>
+          <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-xl p-12 border border-gray-100 dark:border-gray-700 space-y-6">
+            <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100">Wallet Details</h1>
             <p>Loading...</p>
           </div>
         </main>
@@ -79,24 +79,24 @@ export default function WalletDetailsPage() {
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-50">
+    <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-gray-900 dark:to-gray-800">
       <main className="w-full max-w-2xl mx-auto px-6 py-16">
-        <div className="bg-white rounded-2xl shadow-xl p-12 border border-gray-100 space-y-6">
-          <h1 className="text-3xl font-bold text-gray-900">Wallet Details</h1>
+        <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-xl p-12 border border-gray-100 dark:border-gray-700 space-y-6">
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100">Wallet Details</h1>
 
           <div className="space-y-3">
-            <p>
+            <p className="dark:text-gray-100">
               <strong>Wallet Address:</strong>{" "}
               <span className="text-sm break-all">
                 {smartWalletPubkey?.toBase58()}
               </span>
             </p>
 
-            <p>
+            <p className="dark:text-gray-100">
               <strong>Network:</strong> Devnet
             </p>
 
-            <p>
+            <p className="dark:text-gray-100">
               <strong>SOL Balance:</strong>{" "}
               {isLoadingBalance ? "Loading..." : `${balance?.toFixed(4)} SOL`}
             </p>

@@ -27,10 +27,10 @@ export default function WalletPage() {
   const goToTransfer = () => router.push("/transfer");
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-50">
+    <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-gray-900 dark:to-gray-800">
       <main className="w-full max-w-2xl mx-auto px-6 py-16">
-        <div className="bg-white rounded-2xl shadow-xl p-12 border border-gray-100 space-y-6">
-          <h1 className="text-3xl font-bold text-gray-900">
+        <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-xl p-12 border border-gray-100 dark:border-gray-700 space-y-6">
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100">
             Passkey Smart Wallet
           </h1>
 
@@ -66,7 +66,7 @@ export default function WalletPage() {
                 onClick={goToTransfer}
                 className="px-8 py-4 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition-colors shadow-lg hover:shadow-xl mt-4"
               >
-                Go to Gasless Transaction
+                Try a Gasless Transaction
               </button>
             </>
           )}

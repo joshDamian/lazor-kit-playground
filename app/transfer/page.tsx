@@ -96,10 +96,10 @@ export default function TransferPage() {
   // Show loading state while checking connection
   if (isLoading && !isSigning) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-50">
+      <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-gray-900 dark:to-gray-800">
         <main className="w-full max-w-2xl mx-auto px-6 py-16">
-          <div className="bg-white rounded-2xl shadow-xl p-12 border border-gray-100 space-y-6">
-            <h1 className="text-3xl font-bold text-gray-900">
+          <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-xl p-12 border border-gray-100 dark:border-gray-700 space-y-6">
+            <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100">
               Gasless Transaction
             </h1>
             <p>Loading...</p>
@@ -115,10 +115,10 @@ export default function TransferPage() {
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-50">
+    <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-gray-900 dark:to-gray-800">
       <main className="w-full max-w-2xl mx-auto px-6 py-16">
-        <div className="bg-white rounded-2xl shadow-xl p-12 border border-gray-100 space-y-6">
-          <h1 className="text-3xl font-bold text-gray-900">
+        <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-xl p-12 border border-gray-100 dark:border-gray-700 space-y-6">
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100">
             Gasless Transaction
           </h1>
 
@@ -130,7 +130,7 @@ export default function TransferPage() {
               placeholder="Recipient address"
               value={recipient}
               onChange={(e) => setRecipient(e.target.value)}
-              className="w-full p-3 border rounded-lg"
+              className="w-full p-3 border rounded-lg dark:bg-gray-800 dark:border-gray-600 dark:text-gray-100 dark:placeholder-gray-400"
             />
 
             <input
@@ -139,7 +139,7 @@ export default function TransferPage() {
               value={amount}
               step={0.00000001}
               onChange={(e) => setAmount(e.target.value)}
-              className="w-full p-3 border rounded-lg"
+              className="w-full p-3 border rounded-lg dark:bg-gray-800 dark:border-gray-600 dark:text-gray-100 dark:placeholder-gray-400"
             />
 
             <button
@@ -157,15 +157,15 @@ export default function TransferPage() {
 
           {successMsg && (
             <div className="space-y-2">
-              <p className="text-green-600">{successMsg}</p>
+              <p className="text-green-600 dark:text-green-400">{successMsg}</p>
               {signature && (
-                <div className="flex items-center gap-2 p-3 bg-gray-50 rounded-lg border border-gray-200">
-                  <span className="text-sm text-gray-700 font-mono">
+                <div className="flex items-center gap-2 p-3 bg-gray-50 dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-600">
+                  <span className="text-sm text-gray-700 dark:text-gray-300 font-mono">
                     {truncateHash(signature)}
                   </span>
                   <button
                     onClick={handleCopy}
-                    className="ml-auto px-3 py-1 text-sm bg-blue-100 hover:bg-blue-200 text-blue-700 rounded transition-colors"
+                    className="ml-auto px-3 py-1 text-sm bg-blue-100 hover:bg-blue-200 dark:bg-blue-900 dark:hover:bg-blue-800 text-blue-700 dark:text-blue-300 rounded transition-colors"
                   >
                     {copied ? "Copied!" : "Copy"}
                   </button>
@@ -173,11 +173,11 @@ export default function TransferPage() {
               )}
             </div>
           )}
-          {errorMsg && <p className="text-red-500">{errorMsg}</p>}
+          {errorMsg && <p className="text-red-500 dark:text-red-400">{errorMsg}</p>}
 
           <CodeSnippet
             code={`import { useWallet } from "@lazorkit/wallet";
-import { SystemProgram, Transaction, PublicKey, LAMPORTS_PER_SOL } from "@solana/web3.js";
+import { SystemProgram, PublicKey, LAMPORTS_PER_SOL } from "@solana/web3.js";
 
 function TransferExample() {
   const { smartWalletPubkey, signAndSendTransaction } = useWallet();
@@ -186,15 +186,15 @@ function TransferExample() {
     recipient: string,
     amount: number
   ): Promise<string> => {
-    const tx = new Transaction().add(
-      SystemProgram.transfer({
-        fromPubkey: smartWalletPubkey!,
-        toPubkey: new PublicKey(recipient),
-        lamports: amount * LAMPORTS_PER_SOL,
-      })
-    );
+    const instruction = SystemProgram.transfer({
+      fromPubkey: smartWalletPubkey!,
+      toPubkey: new PublicKey(recipient),
+      lamports: amount * LAMPORTS_PER_SOL,
+    });
 
-    const signature = await signAndSendTransaction(tx);
+    const signature = await signAndSendTransaction({
+      instructions: [instruction],
+    });
     return signature;
   };
 
