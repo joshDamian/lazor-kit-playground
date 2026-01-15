@@ -259,20 +259,8 @@ MIT
 ## 🙋 Support
 
 For questions about Lazorkit SDK:
-- [Lazorkit Discord](https://discord.gg/lazorkit)
+- [Lazorkit Telegram](https://t.me/lazorkit)
 - [Lazorkit Twitter](https://twitter.com/lazorkit)
-
-## 🎯 Bounty Deliverables
-
-This project fulfills all Lazorkit bounty requirements:
-
-- ✅ Working Next.js example with clean structure
-- ✅ Well-documented code with comments
-- ✅ Comprehensive README with quick-start guide
-- ✅ 4+ step-by-step tutorials (in `/docs` and interactive)
-- ✅ Live demo on Devnet with functional UI
-- ✅ Advanced features: passkeys, gasless, and automation
-
----
+- [Lazorkit Github](https://github.com/lazor-kit)
 
 Built with ❤️ using [Lazorkit](https://lazorkit.com) and [Next.js](https://nextjs.org)
