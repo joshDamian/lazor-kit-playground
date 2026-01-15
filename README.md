@@ -2,6 +2,8 @@
 
 A comprehensive demonstration of Lazorkit Smart Wallet capabilities, showcasing passkey-based authentication, gasless transactions, and automated subscription billing on Solana.
 
+**🚀 [Live Demo](https://lazorkit-playground.vercel.app/)**
+
 ## 🌟 Features
 
 - **Passkey Authentication**: Create smart wallets using WebAuthn passkeys - no seed phrases needed
@@ -221,9 +223,15 @@ netlify deploy --prod
 
 This app is configured for **Solana Devnet** by default. To test:
 
-1. Create a passkey wallet (no funds needed initially)
-2. Get devnet SOL from [Solana Faucet](https://faucet.solana.com/)
-3. Try gasless transactions and subscription features
+1. **Create a passkey wallet** - No funds needed initially
+2. **Get devnet SOL** - Visit [Solana Faucet](https://faucet.solana.com/)
+   - Paste your smart wallet address
+   - Request 1-2 SOL
+3. **Get devnet USDC** - Visit [Circle USDC Faucet](https://faucet.circle.com/)
+   - Select "Solana Devnet" network
+   - Paste your smart wallet address
+   - Request test USDC tokens
+4. **Try the features** - Test gasless transactions and subscription automation
 
 ## 🔐 Security Notes
 
